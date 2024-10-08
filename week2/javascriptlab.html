@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javscriptlab inthetitle</title>
+</head>
+<body>
+    <h1>button clicker</h1>
+    <h2 id="output">0</h2>
+    <input type="button" value="click me" id="btn">
+    <input type="button" value="reset" id="resetbtn">
+    <input type="button" value="upgrade-btn" id="upgrade-btn">
+    <input type="text" name="Upgrade" id="upgrade">
+    <script>
+        //in-document javascript
+        var myButton = document.querySelector("#btn");
+        var resetButton = document.querySelector("#resetbtn");
+        var clickOutput = document.querySelector("#output")
+        var clickUpgrade = document.querySelector("#upgrade-btn")
+        var clicks = 0
+        var clickByAmount = 1;
+        //add an event listener
+
+        myButton.addEventListener("click", function(){
+            //alert("here is my message");
+            clicks += clickByAmount;
+            clickOutput.innerHTML = clicks;
+        });
+
+        resetButton.addEventListener("click", function(){
+                clicks = 0;
+                //refresh clicks
+                clickOutput.innerHTML = clicks;
+                clickByAmount = 1;
+        });
+
+        clickUpgrade.addEventListener("click", function(){
+            clickByAmount = Number (document.querySelector("#upgrade").value);
+        });
+    </script>
+</body>
+</html>
