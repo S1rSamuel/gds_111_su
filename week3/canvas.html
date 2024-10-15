@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+            <title>week3 lab drawing on the html canvas</title>
+            <meta charset="UTF-8">
+    </head>
+    <body>
+        <h1>week 3 html canvas lab</h1>
+        <canvas id="canvas" width="800" height="600" style="border: 1px solid black;">
+            please check your browser settings 
+        </canvas>
+            <script>
+                //reference to the canvas element
+                var canvas = document.getElementById("canvas");
+                var ctx = canvas.getContext("2d");
+
+                //ctx.fillRect(x pos, y pos, width, height)
+                ctx.fillStyle = "#ff0000";
+                ctx.fillRect(20,20, 50, 100);
+                ctx.fillStyle = "#0000ff";
+                ctx.fillRect(80,20, 50, 100)
+               //this makes an outline for the box
+                ctx.strokeStyle = "#00ff00";
+                ctx.lineWidth = "10";
+                ctx.strokeRect(80,20, 50, 100);
+                //time for lines.
+                ctx.strokeStyle = "blue";
+                ctx.beginPath();
+                ctx.moveTo(0,0);
+                ctx.lineTo(800, 600);
+                ctx.lineTo(800, 300);
+                ctx.lineTo(69, 420);
+                ctx.lineTo(333, 22);
+                ctx.stroke();
+                //new line
+                ctx.strokeStyle = "#ff0000"
+                ctx.beginPath()
+                ctx.moveTo(400,0)
+                ctx.lineTo(400,600)
+                ctx.stroke()
+
+                ctx.strokeStyle = "Purple"
+                ctx.fillStyle = "LightBlue"
+                ctx.beginPath()
+                ctx.moveTo(400, 20)
+                ctx.lineTo(480, 80)
+                ctx.lineTo(340, 80)
+                ctx.closePath();
+                ctx.fill()
+                ctx.stroke()
+
+                //circle time baby!
+                // (x pos, y pos,radius,start angle,end angle, is clockwise )
+                // 2*Math.PI draws the entire circle.
+                ctx.beginPath()
+                ctx.arc(400,300,100,0,2*Math.PI,false)
+                ctx.closePath()
+                ctx.fill()
+                ctx.stroke()
+
+                //fucked up circle below.
+                ctx.beginPath()
+                ctx.arc(200,200,100,0,3*Math.PI/2,false)
+                ctx.lineTo(250,250)
+                ctx.closePath()
+                ctx.fill()
+                ctx.stroke()
+            </script>
+
+    </body>
+</html>
