@@ -20,11 +20,20 @@ var vy = 5
 //Notice that the variable names can't be the same as the magenta box's
 var x2 = c.width/2
 var y2 = c.height/2 + 200
-var h2 = 50
-var w2 = 50
-var color2 = `limegreen`
+var h2 = 10
+var w2 = 10
+var color2 = `purple`
 var vx2 = -5
 var vy2 = 5
+
+//hi
+var x3 = c.width/2
+var y3 = c.height/2 + 200
+var h3 = 29
+var w3 = 233
+var color3 = `black`
+var vx3 = -10
+var vy3 = 5
 
 //Box made as an instance of the GameObject childNodes
 //Notice that the objects can have the same properties (variable names) 
@@ -51,6 +60,7 @@ function main()
  
 	x += vx;
 	x2 += vx2;
+	x3 += vx3;
 	
 	if(x > c.width)
 	{
@@ -62,6 +72,10 @@ function main()
 		x2 = c.width
 	}
  
+	if(x3 <0 - w3)
+		{
+			x3 = c.width
+		}
  //Draw a box with basic variables
 	ctx.save()
 		ctx.fillStyle = color;
