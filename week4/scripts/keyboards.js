@@ -5,7 +5,6 @@ var ctx = canvas.getContext("2d")
 var fps = 1000/60
 var timer = setInterval(gameLoop, fps)
 
-
 //this is an event listener
 document.addEventListener('keydown',press)
 
@@ -23,14 +22,14 @@ document.addEventListener('keydown',press)
 function press(event){
     //give is the key code of every press
     console.log(event.keyCode)
-    if(event.keyCOde ==87){ w = true }
-    if(event.keyCOde ==65){ a = true }
-    if(event.keyCOde ==83){ s = true }
-    if(event.keyCOde ==68){ d = true }
-    if(event.keyCOde ==38){ up = true }
-    if(event.keyCOde ==40){ down = true }
-    if(event.keyCOde ==37){ left = true }
-    if(event.keyCOde ==39){ right = true }
+    if(event.keyCode ==87){ w = true }
+    if(event.keyCode ==65){ a = true }
+    if(event.keyCode ==83){ s = true }
+    if(event.keyCode ==68){ d = true }
+    if(event.keyCode ==38){ up = true }
+    if(event.keyCode ==40){ down = true }
+    if(event.keyCode ==37){ left = true }
+    if(event.keyCode ==39){ right = true }
 }
 
 document.addEventListener('keyup',release)
@@ -38,14 +37,14 @@ document.addEventListener('keyup',release)
 function release(event){
     //give is the key code of every press
     console.log(event.keyCode)
-    if(event.keyCOde ==87){ w = false }
-    if(event.keyCOde ==65){ a = false }
-    if(event.keyCOde ==83){ s = false }
-    if(event.keyCOde ==68){ d = false }
-    if(event.keyCOde ==38){ up = false }
-    if(event.keyCOde ==40){ down = false }
-    if(event.keyCOde ==37){ left = false }
-    if(event.keyCOde ==39){ right = false }
+    if(event.keyCode ==87){ w = false }
+    if(event.keyCode ==65){ a = false }
+    if(event.keyCode ==83){ s = false }
+    if(event.keyCode ==68){ d = false }
+    if(event.keyCode ==38){ up = false }
+    if(event.keyCode ==40){ down = false }
+    if(event.keyCode ==37){ left = false }
+    if(event.keyCode ==39){ right = false }
 }
 
 class GameObject{
@@ -58,6 +57,7 @@ class GameObject{
         this.endAngle = 2*Math.PI
         this.vx = 0
         this.vy = 0
+        this.friction = 0.5
         this.color = "lime"
     }
 
@@ -66,24 +66,32 @@ class GameObject{
         ctx.fillStyle = this.color
         ctx.translate(this.x,this.y)
         ctx.beginPath()
-        ctx.arc(this.x,this.y,this.radius,this.startAngle,this.endAngle)
+        ctx.arc(0,0,this.radius,this.startAngle,this.endAngle)
         ctx.closePath()
         ctx.fill()
         ctx.restore()
     }
 
     move(){
-        this.x = this.x + this.vx
-        this.y = this.y + this.vy
+        this.vx = this.vx * this.friction
+        this.vy = this.vy * this.friction
+        this.x += this.vx 
+        this.y += this.vy  
     }
 
 }
 //creates an instance of our game object
 var player = new GameObject()
+var speed = 10
 
 //this is our gameloop
 function gameLoop(){
     //clears the canvas
     ctx.clearRect(0,0,canvas.width,canvas.height)
+    if(a == true){player.vx = -speed}
+    if(d == true){player.vx = speed}
+    if(w == true){player.vy = -speed}
+    if(s == true){player.vy = speed}
+    player.move()
     player.drawObj()
 }
