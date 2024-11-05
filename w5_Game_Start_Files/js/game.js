@@ -11,13 +11,19 @@ var fps = 1000/60
 var timer = setInterval(main, fps)
 var score = 0
 
+var gameScenes = ["start", "game", "gameOver"]
+var currentScene = gameScenes[0]
+
+var krabbyPatty = document.getElementById("Krabby_Patty")
+var Kirby = document.getElementById("Kirby")
+
 /*------------Declare Variables Here--------*/
 var player = new GameObject()
 player.color = "#0000ff"
 player.w = 100
 player.h = 100
 player.friction = 0.9
-var playerSpeed = 2
+var playerSpeed = 4
 
 //generate enemies
 var enemies = []
@@ -42,56 +48,86 @@ This is the function that makes the game work
 
 function main()
 {
-    //erases the screen
-    ctx.clearRect(0,0,c.width,c.height); 
-
-    //Any changes to numbers
-    if(a==true || left==true){ player.vx = -playerSpeed}
-    if(d==true || right==true){ player.vx = playerSpeed}
-    if(w==true || up==true){ player.vy = -playerSpeed}
-    if(s==true || down==true){ player.vy = playerSpeed}
-
-    player.vx *= player.friction
-    player.vy *= player.friction
-    //Any collision detection 
-
-    //draw the pictures
-    for(var i = 0; i<enemies.length; i++){
-            enemies[i].move()
-            enemies[i].render()
-            //reset the enemies if they're offscreen from bottom.
-            if(enemies[i].y > c.height + enemies[i].h){
-                enemies[i].y = rand(-c.height, 0)
-                enemies[i].x = rand(0, c.width)
-                    if(score > 0){
-                        score --
-                    }
-                
-                //console.log(enemies[i].x, enemies[i].y)
-                //enemies[i].vy = -3
+     //erases the screen
+     ctx.clearRect(0,0,c.width,c.height); 
+    switch(currentScene){
+        case "start":
+            console.log(currentScene)
+            ctx.font = "69px Papyrus"
+            ctx.fillText(`Play My Game`, c.width/2 - 200, c.height/2)
+            if(screenChange==true){
+                play();
             }
-
-            if(enemies[i].y < - enemies[i].h){
-                enemies[i].y = rand(-c.height, 0)
-                enemies[i].x = rand(0, c.width)
-                enemies[i].vy = .5
-    
-            }
-
-            if(player.overlaps(enemies[i])){
-                    enemies[i].vy = -9999
-                    score ++
-            }
+            break;
+        case "game":
+            console.log(currentScene)
+            game()
+            break;
+        case "gameOver":
+            console.log(currentScene)
+            ctx.font = "69px Papyrus"
+            ctx.fillText(`gg you got rekt`, c.width/2 - 200, c.height/2)
+            break;
+        
     }
-    player.move()
-    player.render()
+   
 
-    ctx.font = "69px Papyrus"
-    ctx.fillText(`Score: ${score}`,10,80)
-    ctx.font = "100px Papyrus"
-    ctx.fillText("the table its broken",10,300)
+   
 }
 
+function play(){
+    currentScene = gameScenes[1]
+}
+
+function game(){
+     //Any changes to numbers
+     if(a==true || left==true){ player.vx = -playerSpeed}
+     if(d==true || right==true){ player.vx = playerSpeed}
+     if(w==true || up==true){ player.vy = -playerSpeed}
+     if(s==true || down==true){ player.vy = playerSpeed}
+ 
+     player.vx *= player.friction
+     player.vy *= player.friction
+     //Any collision detection 
+ 
+     //draw the pictures
+     for(var i = 0; i<enemies.length; i++){
+             enemies[i].move()
+             //enemies[i].render()
+             enemies[i].renderImage(krabbyPatty)
+             //reset the enemies if they're offscreen from bottom.
+             if(enemies[i].y > c.height + enemies[i].h){
+                 enemies[i].y = rand(-c.height, 0)
+                 enemies[i].x = rand(0, c.width)
+                     if(score > 0){
+                         score --
+                     }
+                 
+                 //console.log(enemies[i].x, enemies[i].y)
+                 //enemies[i].vy = -3
+             }
+ 
+             if(enemies[i].y < - enemies[i].h){
+                 enemies[i].y = rand(-c.height, 0)
+                 enemies[i].x = rand(0, c.width)
+                 enemies[i].vy = .5
+     
+             }
+ 
+             if(player.overlaps(enemies[i])){
+                     enemies[i].vy = -9999
+                     score ++
+             }
+     }
+     player.move()
+     //player.render()
+     player.renderImage(Kirby)
+ 
+     ctx.font = "69px Papyrus"
+     ctx.fillText(`Score: ${score}`,10,80)
+     ctx.font = "100px Papyrus"
+     ctx.fillText("_",10,300)
+}
 //random number generator
 function rand(_low, _high)
 {
