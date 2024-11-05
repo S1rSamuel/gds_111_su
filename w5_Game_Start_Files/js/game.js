@@ -9,26 +9,28 @@ var c = document.querySelector(`canvas`)
 var ctx = c.getContext(`2d`)
 var fps = 1000/60
 var timer = setInterval(main, fps)
-
+var score = 0
 
 /*------------Declare Variables Here--------*/
 var player = new GameObject()
 player.color = "#0000ff"
 player.w = 100
 player.h = 100
-player.friction = 0.5
-var playerSpeed = 10
+player.friction = 0.9
+var playerSpeed = 2
 
 //generate enemies
 var enemies = []
-var numberOfEnemies = 20
+var numberOfEnemies = 25
 
 //create our collection of enemies
 for(var i = 0; i<numberOfEnemies; i++){
     enemies[i] = new GameObject()
     enemies[i].color = "red"
-    enemies[i].w = 20
-    enemies[i].h = 20
+    enemies[i].w = 25
+    enemies[i].h = 25
+    enemies[i].vy = .5
+    enemies[i].vx = 0
     enemies[i].x = rand(0, c.width)
     enemies[i].y = rand(0, c.height)
     
@@ -55,10 +57,39 @@ function main()
 
     //draw the pictures
     for(var i = 0; i<enemies.length; i++){
+            enemies[i].move()
             enemies[i].render()
+            //reset the enemies if they're offscreen from bottom.
+            if(enemies[i].y > c.height + enemies[i].h){
+                enemies[i].y = rand(-c.height, 0)
+                enemies[i].x = rand(0, c.width)
+                    if(score > 0){
+                        score --
+                    }
+                
+                //console.log(enemies[i].x, enemies[i].y)
+                //enemies[i].vy = -3
+            }
+
+            if(enemies[i].y < - enemies[i].h){
+                enemies[i].y = rand(-c.height, 0)
+                enemies[i].x = rand(0, c.width)
+                enemies[i].vy = .5
+    
+            }
+
+            if(player.overlaps(enemies[i])){
+                    enemies[i].vy = -9999
+                    score ++
+            }
     }
     player.move()
     player.render()
+
+    ctx.font = "69px Papyrus"
+    ctx.fillText(`Score: ${score}`,10,80)
+    ctx.font = "100px Papyrus"
+    ctx.fillText("the table its broken",10,300)
 }
 
 //random number generator
